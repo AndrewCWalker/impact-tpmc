@@ -1,0 +1,4 @@
+Mesh Filename							# ./Mesh_Files/CHAMP_final_ascii.stl
+Number of Ensemble Points					# 1
+Gas Surface Interaction Model                              	# 2
+Species Mole Fractions : X = [O, O2, N, N2, He, H]	   	# 1.000000 0.000000 0.000000 0.000000 0.000000 0.000000
