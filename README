@@ -1,0 +1,53 @@
+Author: Andrew Walker
+e-mail: awalker@lanl.gov
+
+HOW TO RUN THE TPMC CODE:
+
+1) COMPILING: The code can be compiled for either serial or parallel use. The parallel code uses MPI. 
+
+Serial: To compile in serial, open "Makefile" and comment out the "CC = mpicc" line and uncomment the "CC = cc" line. Also, open tpm.c and set the "#define PARALLEL" to 0.
+
+Parallel: To compile in parallel, open "Makefile" and comment out "CC = cc" and uncomment "CC = mpicc". Also, open tpm.c and set "#define PARALLEL" to 1.
+
+2) RUNNING: Depending on whether the code is compiled in serial or in parallel, use the following commands:
+
+Serial: To run from the command line, simply use "./tpm"
+
+Parallel: To run from the command line, use "mpiexec -n N ./tpm" where N is the number of processors to be used.
+
+3) MODIFYING INPUT FILE: The input file (tpm.inp) controls some important information for the TPMC simulations. 
+
+a) Line 1 contains the mesh filename path. Example STL (stereo lithography) files are found in the "Mesh_Files" directory. Note that STL files must be in ASCII and not binary form.
+
+b) Line 2 contains the number of ensemble points to simulate. This should match the number of points/samples in the "tpm.ensemble" file.
+
+c) Line 3 defines the gas-surface interaction model to be used. 0 = Maxwell's model; 1 = Diffuse reflection with incomplete accommodation; 2 = Cercignani-Lampis-Lord.
+
+d) Line 4 defines the species mole fractions (i.e. the ratio of the species number density to the total number density). Only six species are allowed: O (atomic oxygen), O2 (diatomic oxygen), N (atomic nitrogen), N2 (diatomic nitrogen), He (helium), and H (hydrogen).
+
+4) GENERATING AN LHS ENSEMBLE: The file "tpm.ensemble" holds a number of ensemble members (equal to line 1 of the input file). 
+
+In practice, this ensemble has been a Latin Hypercube Sample (LHS) but can be of any form the user desires. 
+
+Each ensemble member must define the 7 input parameters
+
+Umag - velocity magnitude [m/s]
+theta - yaw angle [radians]
+phi - pitch angle [radians]
+Ts - surface temperature [K]
+Ta - atmospheric temperature [K]
+alphan - normal energy accommodation coefficient [unitless]
+sigmat - tangential momentum accommodation coefficient [unitless]
+
+5) OUTPUT: The file "Cdout.dat" contains the computed drag coefficients for each ensemble member. Note that the order of the variables changes between the input file (tpm.ensemble) and the output file (Cdout.dat). The order of output variables in Cdout.dat is:
+
+Umag
+Ts
+Ta
+alphan
+sigmat
+theta
+phi
+Cd
+
+
